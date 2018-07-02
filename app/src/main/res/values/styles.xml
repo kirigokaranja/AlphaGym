@@ -1,0 +1,69 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/burgandy</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorAccent">@color/burglight</item>
+    </style>
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/burgandy</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorAccent">@color/burglight</item>
+        <item name="android:datePickerStyle">@style/datepicker</item>
+    </style>
+
+    <style name="heading">
+        <!--<item name="android:textColor">@color/burgandy</item>-->
+        <item name="android:textSize">@dimen/headingsize</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:textColor">@color/burgandy</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="logoname">
+        <item name="android:textColor">@color/burgandy</item>
+        <item name="android:textSize">@dimen/logonamesize</item>
+        <item name="android:fontFamily">@font/chiller</item>
+        <item name="android:layout_marginTop">40dp</item>
+
+    </style>
+
+    <style name="edittext">
+        <item name="android:layout_width">@dimen/textwidth</item>
+        <item name="android:layout_height">@dimen/textheight</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="profiletext">
+        <item name="android:layout_width">@dimen/textwidth</item>
+        <item name="android:layout_height">@dimen/textheight</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/burgandy</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="datepicker">
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorAccent">@color/burgandy</item>
+        <item name="android:headerBackground">@color/burgandy</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme2.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme2.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

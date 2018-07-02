@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">AlphaGym</string>
+
+
+    <!--Register Activity -->
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create">CREATE</string>
+    <string name="already_have_an_account"><u>Already have an Account?</u></string>
+
+
+    <!--login Activity -->
+    <string name="login">LOGIN</string>
+    <string name="dont_have_an_account"><u>Dont have an account</u></string>
+
+
+    <!--MoreInformation Activity -->
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="desired_weight">Desired Weight</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="gender">Gender:</string>
+    <string name="home_gym"><u>Home Gym</u></string>
+    <string name="submit">SUBMIT</string>
+    <string name="date_picker">datePicker</string>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+
+    <!--SideNavBar Left -->
+    <string name="nav_header_title">Kirigo Karanja</string>
+
+
+    <!--SideNavBar Right -->
+    <string name="action_settings">Settings</string>
+
+
+    <!--HomePage -->
+    <string name="title_activity_home">Alpha Gym</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home_gym">Map</string>
+
+    <!--Validation error messages -->
+    <string name="empty_fileds">Field cannot be empty</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_confirm_password">Password length must be >6</string>
+    <string name="invalid_password">Passwords must be similar</string>
+
+
+</resources>
