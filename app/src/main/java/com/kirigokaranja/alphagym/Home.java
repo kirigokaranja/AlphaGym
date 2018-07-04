@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.kirigokaranja.alphagym.SharedPref.SharedPrefManager;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -142,5 +144,12 @@ public class Home extends AppCompatActivity
 
     public void Homes(MenuItem item) {
         startActivity(new Intent(this,Home.class));
+    }
+
+    public void logout(MenuItem item) {
+
+        SharedPrefManager.getInstance(this).logout();
+        finish();
+        startActivity(new Intent(this, Login.class));
     }
 }

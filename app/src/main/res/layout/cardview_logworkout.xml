@@ -5,7 +5,7 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_width="120dp"
+    android:layout_width="110dp"
     android:layout_height="200dp"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="4dp">
@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="fitXY"
-            android:background="#cc000000"/>
+            android:src="@drawable/bck"
+            android:background="@color/burgandy"/>
 
         <TextView
             android:id="@+id/logworkout_name"

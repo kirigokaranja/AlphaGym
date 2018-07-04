@@ -8,10 +8,22 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.kirigokaranja.alphagym.Api.ApiInterface;
+import com.kirigokaranja.alphagym.Api.ApiUrl;
+import com.kirigokaranja.alphagym.Model.Results;
+import com.kirigokaranja.alphagym.Model.User;
+import com.kirigokaranja.alphagym.SharedPref.SharedPrefManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -44,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
                 validation();
 
                 if (awesomeValidation.validate()) {
-                    gonext();
+                    register();
                 }
             }
         });
@@ -68,7 +80,55 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void gonext() {
-            startActivity(new Intent(RegisterActivity.this, MoreInformation.class));
+//    public void gonext() {
+//            startActivity(new Intent(RegisterActivity.this, MoreInformation.class));
+//    }
+
+    private void register(){
+
+
+       String Firstname = firstName.getEditText().getText().toString().trim();
+        String Lastname = lastName.getEditText().getText().toString().trim();
+        String FirstEmail = Email.getEditText().getText().toString().trim();
+        String FirstPassowrd = Password.getEditText().getText().toString().trim();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiUrl.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface service = retrofit.create(ApiInterface.class);
+
+        User user = new User(Firstname, Lastname, FirstEmail, FirstPassowrd);
+
+        Call<Results> call = service.register(
+                user.getFirst_name(),
+                user.getLast_name(),
+                user.getEmail(),
+                user.getPassword()
+        );
+
+        call.enqueue(new Callback<Results>() {
+            @Override
+            public void onResponse(Call<Results> call, Response<Results> response) {
+
+                Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
+
+              //  if (!response.body().getStatus()){
+
+                    finish();
+                    SharedPrefManager.getInstance(getApplicationContext()).Login(response.body().getUser());
+                    startActivity(new Intent(getApplicationContext(), Home.class));
+              //  }
+
+            }
+
+            @Override
+            public void onFailure(Call<Results> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

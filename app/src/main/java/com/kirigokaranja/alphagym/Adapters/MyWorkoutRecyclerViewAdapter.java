@@ -1,4 +1,4 @@
-package com.kirigokaranja.alphagym;
+package com.kirigokaranja.alphagym.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.kirigokaranja.alphagym.Model.Workout;
+import com.kirigokaranja.alphagym.R;
 
 import java.util.List;
 
@@ -37,6 +40,10 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
         holder.mworkout_name.setText(data.get(position).getWorkoutName());
         holder.mworkout_image.setImageResource(data.get(position).getWorkoutThumbnail());
+        holder.mworkout_date.setText(data.get(position).getWorkoutdate());
+        holder.mworkout_reps.setText(data.get(position).getWorkoutReps());
+        holder.mworkout_sets.setText(data.get(position).getWorkoutSets());
+        holder.mworkout_location.setText(data.get(position).getWorkoutLocation());
 
     }
 
@@ -47,13 +54,18 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     public static class myviewHolder extends RecyclerView.ViewHolder{
 
-        TextView mworkout_name;
+        TextView mworkout_name, mworkout_date, mworkout_reps, mworkout_sets, mworkout_location;
         CircleImageView mworkout_image;
+
 
         public myviewHolder(View itemView) {
             super(itemView);
 
             mworkout_name = (TextView) itemView.findViewById(R.id.myworkout_name);
+            mworkout_date = (TextView) itemView.findViewById(R.id.work_date);
+            mworkout_reps = (TextView) itemView.findViewById(R.id.work_reps);
+            mworkout_sets = (TextView) itemView.findViewById(R.id.work_sets);
+            mworkout_location = (TextView) itemView.findViewById(R.id.work_location);
             mworkout_image = (CircleImageView) itemView.findViewById(R.id.myworkout_img);
         }
     }

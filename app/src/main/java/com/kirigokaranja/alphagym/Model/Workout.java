@@ -1,4 +1,4 @@
-package com.kirigokaranja.alphagym;
+package com.kirigokaranja.alphagym.Model;
 
 public class Workout {
 
@@ -6,18 +6,18 @@ public class Workout {
     private String Workoutdate;
     private String WorkoutReps;
     private String WorkoutSets;
-    private String WorkoutStatus;
+    private String WorkoutLocation;
     private int WorkoutThumbnail;
 
     public Workout() {
     }
 
-    public Workout(String workoutName, String workoutdate, String workoutReps, String workoutSets, String workoutStatus, int workoutThumbnail) {
+    public Workout(String workoutName, String workoutdate, String workoutReps, String workoutSets, String workoutLocation,  int workoutThumbnail) {
         WorkoutName = workoutName;
         Workoutdate = workoutdate;
         WorkoutReps = workoutReps;
         WorkoutSets = workoutSets;
-        WorkoutStatus = workoutStatus;
+        WorkoutLocation = workoutLocation;
         WorkoutThumbnail = workoutThumbnail;
     }
 
@@ -38,10 +38,10 @@ public class Workout {
         return WorkoutSets;
     }
 
-    public String getWorkoutStatus() {
-        return WorkoutStatus;
-    }
 
+    public String getWorkoutLocation() {
+        return WorkoutLocation;
+    }
     public int getWorkoutThumbnail() {
         return WorkoutThumbnail;
     }
@@ -63,8 +63,9 @@ public class Workout {
         WorkoutSets = workoutSets;
     }
 
-    public void setWorkoutStatus(String workoutStatus) {
-        WorkoutStatus = workoutStatus;
+
+    public void setWorkoutLocation(String workoutLocation) {
+        WorkoutLocation = workoutLocation;
     }
 
     public void setWorkoutThumbnail(int workoutThumbnail) {

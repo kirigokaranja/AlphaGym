@@ -1,4 +1,4 @@
-package com.kirigokaranja.alphagym;
+package com.kirigokaranja.alphagym.Classes;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.kirigokaranja.alphagym.R;
 
 public class InstructorDetails extends AppCompatActivity {
 

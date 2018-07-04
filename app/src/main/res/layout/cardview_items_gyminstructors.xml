@@ -20,8 +20,9 @@
             android:id="@+id/instructor_image"
             android:layout_width="match_parent"
             android:layout_height="170dp"
+            android:layout_margin="2dp"
             android:scaleType="fitXY"
-            android:background="#cc000000"/>
+            android:background="@color/burgandy"/>
 
         <TextView
             android:id="@+id/instructor_name"

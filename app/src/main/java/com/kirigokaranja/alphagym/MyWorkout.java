@@ -2,9 +2,11 @@ package com.kirigokaranja.alphagym;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.kirigokaranja.alphagym.Adapters.MyWorkoutRecyclerViewAdapter;
+import com.kirigokaranja.alphagym.Model.Workout;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -26,10 +26,6 @@
         <activity android:name=".MoreInformation" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".HomePage"
-            android:label="@string/title_activity_home_page"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme2" />
@@ -65,7 +61,7 @@
                 android:value=".Home" />
         </activity>
         <activity
-            android:name=".InstructorDetails"
+            android:name=".Classes.InstructorDetails"
             android:label="Gym Instructors"
             android:parentActivityName=".GymInstructor"
             android:theme="@style/AppTheme">
@@ -109,7 +105,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-        <activity android:name=".LogWorkoutDetails"></activity>
     </application>
 
 </manifest>
