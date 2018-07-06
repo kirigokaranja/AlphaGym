@@ -2,12 +2,14 @@ package com.kirigokaranja.alphagym.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kirigokaranja.alphagym.Model.Workout;
 import com.kirigokaranja.alphagym.R;
 
@@ -39,11 +41,13 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     public void onBindViewHolder(@NonNull myviewHolder holder, int position) {
 
         holder.mworkout_name.setText(data.get(position).getWorkoutName());
-        holder.mworkout_image.setImageResource(data.get(position).getWorkoutThumbnail());
+      //  Glide.with(context).load(data.get(position).getWorkoutThumbnail()).into(holder.mworkout_image);
         holder.mworkout_date.setText(data.get(position).getWorkoutdate());
         holder.mworkout_reps.setText(data.get(position).getWorkoutReps());
         holder.mworkout_sets.setText(data.get(position).getWorkoutSets());
         holder.mworkout_location.setText(data.get(position).getWorkoutLocation());
+
+
 
     }
 
@@ -67,6 +71,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             mworkout_sets = (TextView) itemView.findViewById(R.id.work_sets);
             mworkout_location = (TextView) itemView.findViewById(R.id.work_location);
             mworkout_image = (CircleImageView) itemView.findViewById(R.id.myworkout_img);
+
         }
     }
 }

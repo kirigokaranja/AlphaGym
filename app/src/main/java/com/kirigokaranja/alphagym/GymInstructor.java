@@ -1,32 +1,34 @@
 package com.kirigokaranja.alphagym;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.kirigokaranja.alphagym.Adapters.GymInstructoRecycleViewAdapter;
-import com.kirigokaranja.alphagym.Api.ApiInterface;
-import com.kirigokaranja.alphagym.Api.ApiUrl;
-import com.kirigokaranja.alphagym.Classes.Instructorarray;
 import com.kirigokaranja.alphagym.Model.Instructors;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GymInstructor extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GymInstructoRecycleViewAdapter adapter;
 
-    private List<Instructors> instructors = new ArrayList<>();
+    private List<Instructors> instructorList;
+    private static final String URL = "http://alphagymapplication.herokuapp.com/api/instructors";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,59 +38,65 @@ public class GymInstructor extends AppCompatActivity {
 
         recyclerView = (RecyclerView)findViewById(R.id.instructor_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
-        adapter = new GymInstructoRecycleViewAdapter(instructors, this);
-
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        instructorList = new ArrayList<>();
+        
+        showInstructors();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUrl.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    }
 
-        ApiInterface service = retrofit.create(ApiInterface.class);
+    private void showInstructors() {
 
-        Call<Instructorarray> call = service.getInstructors();
-        call.enqueue(new Callback<Instructorarray>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET
+                ,URL
+                , new Response.Listener<String>() {
             @Override
-            public void onResponse(Call<Instructorarray> call, Response<Instructorarray> response) {
+            public void onResponse(String response) {
 
-                Log.e("MAin", response.body().getInstructors().get(0).toString());
-                instructors = response.body().getInstructors();
-                adapter.notifyDataSetChanged();
+                try {
+
+                    JSONArray array = new JSONArray(response);
+
+                    //traversing through all the object
+                    for (int i = 0; i < array.length(); i++) {
+
+                        //getting product object from json array
+                        JSONObject instructor = array.getJSONObject(i);
+
+
+                             String name =  instructor.getString("name");
+                        String gender =  instructor.getString("gender");
+                        String contact =  instructor.getString("contact");
+                        String email =  instructor.getString("email");
+                        String bio =  instructor.getString("bio");
+                        String image =  instructor.getString("image");
+                        int id =  instructor.getInt("id");
+                        int gymid =  instructor.getInt("gym_id");
+
+                        Instructors instructors = new Instructors(name, gender,contact, email, bio, image, id, gymid);
+                        instructorList.add(instructors);
+
+                    }
+
+                    //creating adapter object and setting it to recyclerview
+                    adapter = new GymInstructoRecycleViewAdapter(GymInstructor.this, instructorList);
+                    recyclerView.setAdapter(adapter);
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
             }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(GymInstructor.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
-            @Override
-            public void onFailure(Call<Instructorarray> call, Throwable t) {
-                Log.e("Main", t.toString());
-            }
-        });
-
-
-//        instructors = new ArrayList<>();
-//        instructors.add(new Instructors("Shiv GymmIt", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.bck));
-//        instructors.add(new Instructors("Frank GymmIt", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.icon));
-//        instructors.add(new Instructors("James Bond", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.gym));
-//        instructors.add(new Instructors("Sharon Kirigo", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.dumbbell));
-//        instructors.add(new Instructors("Yoyo Maa", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.dumbbell_training));
-//        instructors.add(new Instructors("Shiv GymmIt", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.bck));
-//        instructors.add(new Instructors("Frank GymmIt", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.icon));
-//        instructors.add(new Instructors("James Bond", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.gym));
-//        instructors.add(new Instructors("Sharon Kirigo", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.dumbbell));
-//        instructors.add(new Instructors("Yoyo Maa", "Cardio", "Male", "0713774575",
-//                "sharon@gmail.com","made in kenya", R.drawable.dumbbell_training));
-
-
-
-
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 }

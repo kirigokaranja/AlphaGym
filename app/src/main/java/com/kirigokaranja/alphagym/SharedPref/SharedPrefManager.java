@@ -1,8 +1,10 @@
 package com.kirigokaranja.alphagym.SharedPref;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.kirigokaranja.alphagym.Login;
 import com.kirigokaranja.alphagym.Model.User;
 
 public class SharedPrefManager {
@@ -17,6 +19,7 @@ public class SharedPrefManager {
     private static final String USER_EMAIL = "kemail";
     private static final String USER_PASSOWRD = "kpassword";
 
+
     public SharedPrefManager(Context context) {
 
         mcontext = context;
@@ -29,7 +32,7 @@ public class SharedPrefManager {
         return sharedPrefManager;
     }
 
-    public boolean Login(User user){
+    public void Login(User user){
         SharedPreferences sharedPreferences = mcontext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -39,21 +42,20 @@ public class SharedPrefManager {
         editor.putString(USER_EMAIL, user.getEmail());
         editor.putString(USER_PASSOWRD, user.getPassword());
         editor.apply();
-        return true;
     }
 
     public boolean areLoggedIn(){
 
         SharedPreferences sharedPreferences = mcontext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        if (sharedPreferences.getString(USER_EMAIL, null) != null)
-            return true;
-        return false;
+        return sharedPreferences.getString(USER_EMAIL, null) != null;
+
     }
 
     public User getUser(){
         SharedPreferences sharedPreferences = mcontext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new User(
-                sharedPreferences.getInt(USER_ID, 0),
+
+                sharedPreferences.getInt(USER_ID, -1),
                 sharedPreferences.getString(USER_FNAME, null),
                 sharedPreferences.getString(USER_LNAME, null),
                 sharedPreferences.getString(USER_EMAIL, null),
@@ -61,11 +63,11 @@ public class SharedPrefManager {
         );
     }
 
-    public boolean logout(){
+    public void logout(){
         SharedPreferences sharedPreferences = mcontext.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        return true;
+        mcontext.startActivity(new Intent(mcontext, Login.class));
     }
 }

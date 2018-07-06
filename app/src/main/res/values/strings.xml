@@ -35,10 +35,18 @@
 
     <!--SideNavBar Left -->
     <string name="nav_header_title">Kirigo Karanja</string>
+    <string name="home">Home</string>
+    <string name="my_workouts">My Workouts</string>
+    <string name="gym_locations">Gym Locations</string>
+    <string name="log_workouts">Log Workouts</string>
+    <string name="gym_instructors">Gym Instructors</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
 
 
     <!--SideNavBar Right -->
-    <string name="action_settings">Settings</string>
+    <string name="english">English</string>
+    <string name="kiswahili">Kiswahili</string>
 
 
     <!--HomePage -->
@@ -58,6 +66,7 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_confirm_password">Password length must be >6</string>
     <string name="invalid_password">Passwords must be similar</string>
+
 
 
 </resources>

@@ -13,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.kirigokaranja.alphagym.Model.User;
 import com.kirigokaranja.alphagym.SharedPref.SharedPrefManager;
 
 public class Home extends AppCompatActivity
@@ -34,6 +36,12 @@ public class Home extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        TextView name = (TextView)findViewById(R.id.profileName);
+        TextView username = (TextView)findViewById(R.id.user_names);
+        User user = SharedPrefManager.getInstance(this).getUser();
+        String names = user.getFirst_name()+ user.getLast_name();
+        name.setText(names);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,8 +78,10 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.english) {
             return true;
+        }else if (id == R.id.kiswahili){
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -83,18 +93,20 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this,Home.class));
+        } else if (id == R.id.nav_workout) {
+            startActivity(new Intent(this,MyWorkout.class));
+        } else if (id == R.id.nav_location) {
+            startActivity(new Intent(this,HomeGym.class));
+        } else if (id == R.id.nav_log) {
+            startActivity(new Intent(this,LogWorkout.class));
+        } else if (id == R.id.nav_instructor) {
+            startActivity(new Intent(this,GymInstructor.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this,Profile.class));
+        } else if (id == R.id.nav_logout) {
+            SharedPrefManager.getInstance(getApplicationContext()).logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -119,37 +131,7 @@ public class Home extends AppCompatActivity
     }
 
     public void GymLocations(View view) {
-        startActivity(new Intent(this,GymLocation.class));
+        startActivity(new Intent(this,HomeGym.class));
     }
 
-    public void GymLocations(MenuItem item) {
-        startActivity(new Intent(this,GymLocation.class));
-    }
-
-    public void GymInstructors(MenuItem item) {
-        startActivity(new Intent(this,GymInstructor.class));
-    }
-
-    public void myProfile(MenuItem item) {
-        startActivity(new Intent(this,Profile.class));
-    }
-
-    public void logWorkout(MenuItem item) {
-        startActivity(new Intent(this,LogWorkout.class));
-    }
-
-    public void MyWorkout(MenuItem item) {
-        startActivity(new Intent(this,MyWorkout.class));
-    }
-
-    public void Homes(MenuItem item) {
-        startActivity(new Intent(this,Home.class));
-    }
-
-    public void logout(MenuItem item) {
-
-        SharedPrefManager.getInstance(this).logout();
-        finish();
-        startActivity(new Intent(this, Login.class));
-    }
 }

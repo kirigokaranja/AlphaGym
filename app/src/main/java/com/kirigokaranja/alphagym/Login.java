@@ -8,22 +8,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.kirigokaranja.alphagym.Api.ApiInterface;
-import com.kirigokaranja.alphagym.Api.ApiUrl;
-import com.kirigokaranja.alphagym.Model.Results;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.kirigokaranja.alphagym.Model.User;
 import com.kirigokaranja.alphagym.SharedPref.SharedPrefManager;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
     private TextInputLayout Email;
     private TextInputLayout Password;
     private Button Login;
+    private static final String URL_LOGIN = "https://alphagymapplication.herokuapp.com/api/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //s();
+              //  s();
                 logins();
             }
         });
@@ -53,46 +57,64 @@ public class Login extends AppCompatActivity {
     public void signup(View view) {
         startActivity(new Intent(this,RegisterActivity.class));
     }
-//    public void s() {
-//        startActivity(new Intent(this,Home.class));
-//    }
+    public void s() {
+        startActivity(new Intent(this,Home.class));
+    }
     public void logins(){
 
-        String LoginEmail = Email.getEditText().getText().toString().trim();
-        String LoginPassowrd = Password.getEditText().getText().toString().trim();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUrl.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        final String FirstName = Email.getEditText().getText().toString();
+        final String FirstPassword = Password.getEditText().getText().toString();
 
-        ApiInterface service = retrofit.create(ApiInterface.class);
-
-
-        Call<Results> call = service.login(LoginEmail, LoginPassowrd);
-
-        call.enqueue(new Callback<Results>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN, new com.android.volley.Response.Listener<String>() {
             @Override
-            public void onResponse(Call<Results> call, Response<Results> response) {
+            public void onResponse(String response) {
 
-                Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
-//                s();
+                try {
+                    JSONObject obj = new JSONObject(response);
 
-                if (!response.body().getStatus()){
+                    if (obj.getBoolean("status")) {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                    finish();
-                   // SharedPrefManager.getInstance(getApplicationContext()).Login(response.body().getUser());
-                    startActivity(new Intent(getApplicationContext(), Home.class));
+                        JSONObject users = obj.getJSONObject("user");
+
+                        User user = new User(
+                                users.getInt("id"),
+                                users.getString("first_name"),
+                                users.getString("last_name"),
+                                users.getString("email"),
+                                users.getString("password")
+                        );
+
+
+                        SharedPrefManager.getInstance(getApplicationContext()).Login(user);
+
+
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), Home.class));
+                    } else {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
             }
-
+        }, new com.android.volley.Response.ErrorListener() {
             @Override
-            public void onFailure(Call<Results> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", FirstName);
+                params.put("password", FirstPassword);
+                return params;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 }

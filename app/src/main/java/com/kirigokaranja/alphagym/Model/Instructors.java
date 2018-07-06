@@ -1,30 +1,23 @@
 package com.kirigokaranja.alphagym.Model;
 
-import com.google.gson.annotations.SerializedName;
+
 
 public class Instructors {
 
-    @SerializedName("name")
+
     private String InstructorName;
-    @SerializedName("gender")
     private String InstructorGender;
-    @SerializedName("contact")
     private String InstructorContact;
-    @SerializedName("email")
     private String InstructorEmail;
-    @SerializedName("bio")
     private String InstructorBio;
-    @SerializedName("image")
-    private int Thumbnail;
-    @SerializedName("id")
+    private String Thumbnail;
     private int Id;
-    @SerializedName("gym_id")
     private int GymId;
 
     private Instructors(){
     }
 
-    public Instructors(String instructorName, String instructorGender, String instructorContact, String instructorEmail, String instructorBio, int thumbnail) {
+    public Instructors(String instructorName, String instructorGender, String instructorContact, String instructorEmail, String instructorBio, String thumbnail) {
         InstructorName = instructorName;
         InstructorGender = instructorGender;
         InstructorContact = instructorContact;
@@ -33,7 +26,7 @@ public class Instructors {
         Thumbnail = thumbnail;
     }
 
-    public Instructors(String instructorName, String instructorGender, String instructorContact, String instructorEmail, String instructorBio, int thumbnail, int id, int gymId) {
+    public Instructors(String instructorName, String instructorGender, String instructorContact, String instructorEmail, String instructorBio, String thumbnail, int id, int gymId) {
         InstructorName = instructorName;
         InstructorGender = instructorGender;
         InstructorContact = instructorContact;
@@ -65,7 +58,7 @@ public class Instructors {
         return InstructorBio;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return Thumbnail;
     }
 
@@ -98,7 +91,7 @@ public class Instructors {
         InstructorBio = instructorBio;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         Thumbnail = thumbnail;
     }
 

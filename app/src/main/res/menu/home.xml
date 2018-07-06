@@ -2,14 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/english"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/english"
         app:showAsAction="never" />
-
     <item
-        android:id="@+id/logout"
-        android:title="Logout"
-        android:onClick="logout"
-        />
+        android:id="@+id/kiswahili"
+        android:title="@string/kiswahili"
+        app:showAsAction="never" />
 </menu>

@@ -1,6 +1,5 @@
 package com.kirigokaranja.alphagym.Adapters;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,15 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kirigokaranja.alphagym.Classes.InstructorDetails;
-import com.kirigokaranja.alphagym.Classes.Instructorarray;
 import com.kirigokaranja.alphagym.Model.Instructors;
 import com.kirigokaranja.alphagym.R;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Callback;
 
 public class GymInstructoRecycleViewAdapter extends RecyclerView.Adapter <GymInstructoRecycleViewAdapter.MyViewHolder>{
 
@@ -28,7 +24,7 @@ public class GymInstructoRecycleViewAdapter extends RecyclerView.Adapter <GymIns
     private List<Instructors> InstructoList;
 
 
-    public GymInstructoRecycleViewAdapter(  List<Instructors> mData, Context mContext ) {
+    public GymInstructoRecycleViewAdapter(  Context mContext, List<Instructors> mData ) {
         this.mContext = mContext;
         this.InstructoList = mData;
     }
@@ -48,12 +44,13 @@ public class GymInstructoRecycleViewAdapter extends RecyclerView.Adapter <GymIns
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         holder.InstructorName.setText(InstructoList.get(position).getInstructorName());
-        holder.InstructorImg_Thumbnail.setImageResource(InstructoList.get(position).getThumbnail());
+        Glide.with(mContext).load(InstructoList.get(position).getThumbnail()).into(holder.InstructorImg_Thumbnail);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InstructorDetails.class);
                 intent.putExtra("Name", InstructoList.get(position).getInstructorName());
+                intent.putExtra("Gender", InstructoList.get(position).getInstructorGender());
                 intent.putExtra("Bio", InstructoList.get(position).getInstructorBio());
                 intent.putExtra("Contact", InstructoList.get(position).getInstructorContact());
                 intent.putExtra("Email", InstructoList.get(position).getInstructorEmail());

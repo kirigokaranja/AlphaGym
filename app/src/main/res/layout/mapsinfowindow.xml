@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/mapsicon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/gym"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/locationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:text="Gym Name"
+        android:layout_toRightOf="@id/mapsicon"/>
+
+    <TextView
+        android:id="@+id/locationopen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="14sp"
+        android:text="Opening time"
+        android:layout_below="@id/locationName"
+        android:layout_toRightOf="@id/mapsicon"/>
+
+    <TextView
+        android:id="@+id/locationclose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        android:text="Closing time"
+        android:layout_below="@id/locationopen"
+        android:layout_toRightOf="@id/mapsicon"/>
+
+</RelativeLayout>

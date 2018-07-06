@@ -1,29 +1,38 @@
 package com.kirigokaranja.alphagym;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.kirigokaranja.alphagym.Api.ApiInterface;
-import com.kirigokaranja.alphagym.Api.ApiUrl;
-import com.kirigokaranja.alphagym.Model.Results;
+import com.kirigokaranja.alphagym.Classes.InstructorDetails;
 import com.kirigokaranja.alphagym.Model.User;
 import com.kirigokaranja.alphagym.SharedPref.SharedPrefManager;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout Password;
     private TextInputLayout confirmPassword;
     private Button create;
+    ProgressBar progressBar;
+    private static final String URL_REGISTER = "https://alphagymapplication.herokuapp.com/api/register";
 
     public AwesomeValidation awesomeValidation;
 
@@ -42,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-
+        progressBar = (ProgressBar) findViewById(R.id.loader);
         firstName = (TextInputLayout)findViewById(R.id.firstname);
         lastName = (TextInputLayout)findViewById(R.id.lastname);
         Email = (TextInputLayout)findViewById(R.id.email);
@@ -73,62 +84,86 @@ public class RegisterActivity extends AppCompatActivity {
 
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
 
-        String regexPassword = ".{6,}";
+        String regexPassword = ".{4,}";
         awesomeValidation.addValidation(this, R.id.password, regexPassword, R.string.invalid_confirm_password);
         awesomeValidation.addValidation(this, R.id.confpassword, R.id.password, R.string.invalid_password);
 
 
     }
 
-//    public void gonext() {
-//            startActivity(new Intent(RegisterActivity.this, MoreInformation.class));
-//    }
+    public void haveaccount() {
+            startActivity(new Intent(RegisterActivity.this, Login.class));
+    }
 
     private void register(){
+        progressBar.setVisibility(View.VISIBLE);
+
+       final String Firstname = firstName.getEditText().getText().toString().trim();
+        final String Lastname = lastName.getEditText().getText().toString().trim();
+        final String FirstEmail = Email.getEditText().getText().toString().trim();
+        final String FirstPassword = Password.getEditText().getText().toString().trim();
 
 
-       String Firstname = firstName.getEditText().getText().toString().trim();
-        String Lastname = lastName.getEditText().getText().toString().trim();
-        String FirstEmail = Email.getEditText().getText().toString().trim();
-        String FirstPassowrd = Password.getEditText().getText().toString().trim();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URL_REGISTER,
+                new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiUrl.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                        try {
 
-        ApiInterface service = retrofit.create(ApiInterface.class);
+                            JSONObject obj = new JSONObject(response);
 
-        User user = new User(Firstname, Lastname, FirstEmail, FirstPassowrd);
 
-        Call<Results> call = service.register(
-                user.getFirst_name(),
-                user.getLast_name(),
-                user.getEmail(),
-                user.getPassword()
-        );
+                            if (obj.getBoolean("status")) {
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
 
-        call.enqueue(new Callback<Results>() {
+                                JSONObject users = obj.getJSONObject("user");
+//                                for (int i = 0; i < array.length(); i++) {
+//
+//                                    JSONObject users = array.getJSONObject(i);
+
+
+                                    User user = new User(
+                                            users.getInt("id"),
+                                            users.getString("first_name"),
+                                            users.getString("last_name"),
+                                            users.getString("email"),
+                                            users.getString("password")
+                                    );
+                                    SharedPrefManager.getInstance(getApplicationContext()).Login(user);
+//                                }
+
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), Home.class));
+                            } else {
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
             @Override
-            public void onResponse(Call<Results> call, Response<Results> response) {
-
-                Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
-
-              //  if (!response.body().getStatus()){
-
-                    finish();
-                    SharedPrefManager.getInstance(getApplicationContext()).Login(response.body().getUser());
-                    startActivity(new Intent(getApplicationContext(), Home.class));
-              //  }
-
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("first_name", Firstname);
+                params.put("last_name", Lastname);
+                params.put("email", FirstEmail);
+                params.put("password", FirstPassword);
+                return params;
             }
+        };
+        Volley.newRequestQueue(this).add(stringRequest);
 
-            @Override
-            public void onFailure(Call<Results> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
 
     }
 }

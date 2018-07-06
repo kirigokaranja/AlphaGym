@@ -21,6 +21,13 @@ public class Workout {
         WorkoutThumbnail = workoutThumbnail;
     }
 
+    public Workout(String workoutName, String workoutdate, String workoutReps, String workoutSets, String workoutLocation) {
+        WorkoutName = workoutName;
+        Workoutdate = workoutdate;
+        WorkoutReps = workoutReps;
+        WorkoutSets = workoutSets;
+        WorkoutLocation = workoutLocation;
+    }
 
     public String getWorkoutName() {
         return WorkoutName;
